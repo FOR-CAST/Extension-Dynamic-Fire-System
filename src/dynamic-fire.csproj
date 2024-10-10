@@ -23,6 +23,7 @@
     <Description>Dynamic Fire System for LANDIS-II</Description>
     <PackageReleaseNotes></PackageReleaseNotes>
     <FileVersion>4.0</FileVersion>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
