@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <Reference Include="Landis.Library.UniversalCohorts-v2">
+      <HintPath>lib\Landis.Library.UniversalCohorts-v2.dll</HintPath>
     </Reference>
     <Reference Include="Landis.Library.Parameters-v2">
       <HintPath>lib\Landis.Library.Parameters-v2.dll</HintPath>
