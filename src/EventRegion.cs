@@ -1,6 +1,5 @@
 //  Authors:  Robert M. Scheller, Brian R. Miranda 
 
-//using Landis.Library.UniversalCohorts;
 using Landis.SpatialModeling;
 using System.Collections.Generic;
 using System;
@@ -449,6 +448,7 @@ namespace Landis.Extension.DynamicFire
             }
         }
         //-------------------------------------------------------
+        /*
         private static double Beta(Site sourcesite, Site site, double windDirection)
         {
             double row = (double)sourcesite.Location.Row - (double)site.Location.Row;
@@ -477,7 +477,7 @@ namespace Landis.Extension.DynamicFire
             beta = beta * Math.PI / 180;  //Convert to radians
             return beta;
 
-        }
+        }*/
 
         private static double BetaRand(Site sourcesite, Site site, double windDirection)
         {
@@ -528,7 +528,7 @@ namespace Landis.Extension.DynamicFire
 
             return lengthBreadthRatio;
         }
-
+        /*
         private static bool ElipseDistanceBetweenSites(Site igSite, Site burnSite, double C, double A, double fireDirection, double ellipseArea, SizeType fireSizeType)
         {
             bool lessThan = false;
@@ -577,7 +577,7 @@ namespace Landis.Extension.DynamicFire
             //PlugIn.ModelCore.UI.WriteLine("dXf1={0:0.0}, dYf1={1:0.0}, dXburn={2:0.0}, dYburn={3:0.0}.", dXf1, dYf1,dXburn,dYburn);
             //return true;
             return lessThan;
-        }
+        }*/
 
 
 
@@ -619,7 +619,7 @@ namespace Landis.Extension.DynamicFire
 
             return neighbors;
         }
-
+        /*
         private static double CosSquared(double num)
         {
             return (Math.Cos(num) * Math.Cos(num));
@@ -627,7 +627,7 @@ namespace Landis.Extension.DynamicFire
         private static double SinSquared(double num)
         {
             return (Math.Sin(num) * Math.Sin(num));
-        }
+        }*/
         private static List<int> CalculateSlopeEffect(int windSpeed, int windDirection,
                                                 Site site, double RSZ, double f_F,
                                                 ISeasonParameters season)
@@ -745,29 +745,29 @@ namespace Landis.Extension.DynamicFire
 
 
         }
+                
+        //private static double CalculateWSE(int fuelIndex, double RSF, double f_F, /*int PC,*/ ISeasonParameters season)
+        //{
+        //    //FuelTypeCode siteFuelType = (FuelTypeCode) fuelIndex;
+        //    double ISF, WSE;
+        //    double a = Event.FuelTypeParms[fuelIndex].A;
+        //    double b = Event.FuelTypeParms[fuelIndex].B;
+        //    double c = Event.FuelTypeParms[fuelIndex].C;
+        //    if (Event.FuelTypeParms[fuelIndex].BaseFuel == BaseFuelType.Open)
+        //    //siteFuelType == FuelTypeCode.O1a)
+        //    {
+        //        double CF = (0.02 * season.PercentCuring) - 1;
 
+        //        ISF = Math.Log(1 - Math.Pow((RSF / (CF * a)), (1 / c))) / (-1 * b);
+        //    }
+        //    else
+        //    {
+        //        ISF = Math.Log(1 - Math.Pow((RSF / (a)), (1 / c))) / (-1 * b);
+        //    }
+        //    WSE = Math.Log(ISF / (0.208 * f_F)) / 0.05039;
+        //    return WSE;
+        //} 
 
-        private static double CalculateWSE(int fuelIndex, double RSF, double f_F, /*int PC,*/ ISeasonParameters season)
-        {
-            //FuelTypeCode siteFuelType = (FuelTypeCode) fuelIndex;
-            double ISF, WSE;
-            double a = Event.FuelTypeParms[fuelIndex].A;
-            double b = Event.FuelTypeParms[fuelIndex].B;
-            double c = Event.FuelTypeParms[fuelIndex].C;
-            if (Event.FuelTypeParms[fuelIndex].BaseFuel == BaseFuelType.Open)
-            //siteFuelType == FuelTypeCode.O1a)
-            {
-                double CF = (0.02 * season.PercentCuring) - 1;
-
-                ISF = Math.Log(1 - Math.Pow((RSF / (CF * a)), (1 / c))) / (-1 * b);
-            }
-            else
-            {
-                ISF = Math.Log(1 - Math.Pow((RSF / (a)), (1 / c))) / (-1 * b);
-            }
-            WSE = Math.Log(ISF / (0.208 * f_F)) / 0.05039;
-            return WSE;
-        }
 
 
         public class SiteComparer : IComparer<Site>
@@ -789,13 +789,6 @@ namespace Landis.Extension.DynamicFire
             public int Compare(WeightedSite x,
                                               WeightedSite y)
             {
-                /*if (x.Weight < y.Weight)
-                    return -1;
-                else if (x.Weight > y.Weight)
-                    return 1;
-                else
-                    return 0;
-                 * */
                 int myCompare = x.Weight.CompareTo(y.Weight);
                 return myCompare;
             }

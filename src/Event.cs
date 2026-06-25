@@ -22,10 +22,6 @@ namespace Landis.Extension.DynamicFire
         private int sizeBin;
         private ActiveSite currentSite; // current site where cohorts are being damaged
         private int siteSeverity;      // used to compute maximum cohort severity at a site
-                                       //private double lengthB;
-                                       //private double lengthA;
-                                       //private double lengthD;
-                                       //private double lbr;  //lenght:breadth ratio
 
         //---------------------------------------------------------------------
 
@@ -56,53 +52,19 @@ namespace Landis.Extension.DynamicFire
         }
         //---------------------------------------------------------------------
         public double MaxDuration { get; private set; }
-        //---------------------------------------------------------------------
-
         public IFireRegion InitiationFireRegion { get; }
-        ////---------------------------------------------------------------------
-
         public int InitiationPercentConifer { get; private set; }
-        //---------------------------------------------------------------------
-
         public int InitiationFuel { get; private set; }
-        //---------------------------------------------------------------------
-
-        //public int[] SitesInEvent { get; }
-
-        ////---------------------------------------------------------------------
-
         public int NumSitesChecked { get; private set; }
         public int NumberDamagedSites { get; private set; }
-        //---------------------------------------------------------------------
-
         public int CohortsKilled { get; private set; }
-
-        ////---------------------------------------------------------------------
-
         public double EventSeverity { get; private set; }
-
-        //---------------------------------------------------------------------
-
         public int WindSpeed { get; set; }
-        ////---------------------------------------------------------------------
-
         public int WindDirection { get; set; }
-        //---------------------------------------------------------------------
-
         public int FFMC { get; }
-
-        //---------------------------------------------------------------------
-
         public int BuildUpIndex { get; }
-
-        //---------------------------------------------------------------------
-
         public int FMC { get; }
-        //---------------------------------------------------------------------
-
         public int ISI { get; private set; }
-        //---------------------------------------------------------------------
-
         public ISeasonParameters FireSeason { get; }
         //---------------------------------------------------------------------
 
@@ -127,22 +89,16 @@ namespace Landis.Extension.DynamicFire
         private Event(ActiveSite initiationSite, ISeasonParameters fireSeason, SizeType fireSizeType)
         {
             this.initiationSite = initiationSite;
-            //this.SitesInEvent = new int[FireRegions.Dataset.Count];
             //PlugIn.ModelCore.UI.WriteLine("   initialzing siteInEvent ...");
 
-            //foreach(IFireRegion fire_region in FireRegions.Dataset)
-            //    this.SitesInEvent[fire_region.Index] = 0;
             this.CohortsKilled = 0;
             this.EventSeverity = 0;
             this.NumberDamagedSites = 0;
-            //this.lengthB = 0.0;
-            //this.lengthA = 0.0;
-            //this.lengthD = 0.0;
             IFireRegion eco = SiteVars.FireRegion[initiationSite];
             this.InitiationFireRegion = eco;
             this.MaxFireParameter = ComputeSize(eco.MeanSize, eco.StandardDeviation, eco.MaxSize); //fireSizeType);
             this.sizeBin = ComputeSizeBin(eco.MeanSize, eco.StandardDeviation, this.MaxFireParameter);
-            this.FireSeason         = fireSeason; //Weather.GenerateSeason(seasons);
+            this.FireSeason         = fireSeason; 
             System.Data.DataRow weatherRow = Weather.GenerateDataRow(this.FireSeason, eco, this.sizeBin);
             
             this.WindSpeed            = Weather.GenerateWindSpeed(weatherRow);
@@ -289,7 +245,6 @@ namespace Landis.Extension.DynamicFire
             {
                 if (isDebugEnabled)
                     PlugIn.ModelCore.UI.WriteLine("   Fire Event failed to initiate due to fuel type initiation probability");
-                //return null;
             }
             return null;
         }
@@ -512,7 +467,7 @@ namespace Landis.Extension.DynamicFire
 
         //  A filter to determine which cohorts are removed.
 
-        int IDisturbance.ReduceOrKillMarkedCohort(ICohort cohort)
+        double IDisturbance.ReduceOrKillMarkedCohort(ICohort cohort)
         {
             bool killCohort = false;
 
@@ -534,7 +489,7 @@ namespace Landis.Extension.DynamicFire
                         {
                             killCohort = true;
 
-                            return cohort.Data.Biomass; // No need to search further in the table
+                            return 1.0; // Total mortality; no need to search further in the table
                         }
                     }
                 }
@@ -543,7 +498,7 @@ namespace Landis.Extension.DynamicFire
             if (killCohort) {
                 this.CohortsKilled++;
             }
-            return 0;
+            return 0.0;  // no mortality
         }
 
         //---------------------------------------------------------------------

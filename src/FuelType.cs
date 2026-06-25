@@ -1,7 +1,6 @@
 //  Authors:  Robert M. Scheller, Brian R. Miranda 
 
 using Landis.Utilities;
-//using Landis.Library.UniversalCohorts;
 
 
 namespace Landis.Extension.DynamicFire

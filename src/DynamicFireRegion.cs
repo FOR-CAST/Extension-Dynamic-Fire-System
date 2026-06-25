@@ -40,11 +40,9 @@ namespace Landis.Extension.DynamicFire
             }
 
             set {
-                //if (value != null) {
                     if (value < 0 )
                         throw new InputValueException(value.ToString(),
                             "Value must be > 0 ");
-                //}
                 year = value;
             }
         }
@@ -53,25 +51,7 @@ namespace Landis.Extension.DynamicFire
         public DynamicFireRegion()
         {
         }
-        //---------------------------------------------------------------------
-/*
-        public DynamicFireRegion(
-            string mapName,
-            int year
-            )
-        {
-            this.mapName = mapName;
-            this.year = year;
-        }
-
-        //---------------------------------------------------------------------
-
-        public DynamicFireRegion()
-        {
-            this.mapName = "";
-            this.year = 0;
-        }*/
-
+        
 
     }
 }

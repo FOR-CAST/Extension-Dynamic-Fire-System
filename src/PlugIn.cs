@@ -1,6 +1,5 @@
 //  Authors:  Robert M. Scheller, Brian R. Miranda 
 
-//using Landis.Library.UniversalCohorts;
 using Landis.SpatialModeling;
 using Landis.Core;
 using System;

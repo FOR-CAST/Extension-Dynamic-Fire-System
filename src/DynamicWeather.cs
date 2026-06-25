@@ -54,24 +54,6 @@ namespace Landis.Extension.DynamicFire
         {
         }
 
-/*        //---------------------------------------------------------------------
-        public DynamicWeatherTable(
-            string fileName,
-            int year
-            )
-        {
-            this.fileName = fileName;
-            this.year = year;
-        }
-
-        //---------------------------------------------------------------------
-
-        public DynamicWeatherTable()
-        {
-            this.fileName = "";
-            this.year = 0;
-        }
-*/
 
     }
 }

@@ -83,15 +83,7 @@ namespace Landis.Extension.DynamicFire
         public FireDamage()
         {
         }
-        //---------------------------------------------------------------------
-/*
-        public FireDamage(
-                        double maxAge,
-                        int  severTolerDifference)
-        {
-            this.maxAge = maxAge;
-            this.severTolerDifference = severTolerDifference;
-        }*/
+
         //---------------------------------------------------------------------
 
         private void ValidateAge(Percentage age)

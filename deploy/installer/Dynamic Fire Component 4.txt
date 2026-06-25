@@ -1,7 +1,7 @@
 LandisData   Extension
 
 Name         "Dynamic Fire System"
-Version      "4.0"
+Version      "4.1"
 Type         disturbance:fire
 Assembly     Landis.Extension.DynamicFire-v4
 Class        Landis.Extension.DynamicFire.PlugIn
