@@ -264,7 +264,7 @@ namespace Landis.Extension.DynamicFire
             int totalSiteSeverities = 0;
             int siteCohortsKilled    = 0;
             int totalISI = 0;
-            NumberDamagedSites = 1;
+            NumberDamagedSites = 0;
 
             this.InitiationFuel   = SiteVars.CFSFuelType[initiationSite];
             this.InitiationPercentConifer = SiteVars.PercentConifer[initiationSite];
