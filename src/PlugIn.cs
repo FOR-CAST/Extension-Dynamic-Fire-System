@@ -384,17 +384,13 @@ namespace Landis.Extension.DynamicFire
                 el.SitesChecked = fireEvent.NumSitesChecked;
                 el.CohortsKilled = fireEvent.CohortsKilled;
                 el.MeanSeverity = fireEvent.EventSeverity;
-                //el.EcoMaps_ = new double[FireRegions.Dataset.Count];
-                //int i = 0;
-                ////----------
-                //foreach (IFireRegion fire_region in FireRegions.Dataset)
-                //{
-                //    el.EcoMaps_[i] = fireEvent.SitesInEvent[fire_region.Index];
-                //    totalSitesInEvent += fireEvent.SitesInEvent[fire_region.Index];
-                //    summaryFireRegionEventCount[fire_region.Index] += fireEvent.SitesInEvent[fire_region.Index];
-                //    i = i + 1;
-                //}
-                //summaryTotalSites += totalSitesInEvent;
+                // Summary log totals: cells burned, in all and by fire region. The event
+                // log no longer carries the per-region columns, so only the summary uses them.
+                foreach (IFireRegion fire_region in FireRegions.Dataset)
+                {
+                    summaryFireRegionEventCount[fire_region.Index] += fireEvent.SitesInEvent[fire_region.Index];
+                    summaryTotalSites += fireEvent.SitesInEvent[fire_region.Index];
+                }
                 el.DamagedSites = fireEvent.NumberDamagedSites;
                 eventLog.AddObject(el);
                 eventLog.WriteToFile();
