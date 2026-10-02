@@ -235,45 +235,25 @@ namespace Landis.Extension.DynamicFire
 
                     if (isDebugEnabled)
                         ModelCore.UI.WriteLine("{0}: EcoIgnitionNum = {1}, computing ignGenerated ...", fire_region.Name, fire_region.EcoIgnitionNum);
-                    if (fire_region.EcoIgnitionNum < 1)
-                    {
-                        // Adjust ignition probability for multiple years
-                        // (The inverse of the probability of NOT having any ignition for the time period.)
-                        // P = 1 - (1-Pignition)^timestep
-                        //doubleLambda = 1 - System.Math.Pow(1.0 - fire_region.EcoIgnitionNum, Timestep);
+                    doubleLambda = fire_region.EcoIgnitionNum;
+                    bool boolLarge = false;
 
-                        for (int i = 1; i <= Timestep; i++)
-                        {
-                            int annualFires = 0;
-                            if (ModelCore.GenerateUniform() <= fire_region.EcoIgnitionNum)
-                            {
-                                annualFires = 1;
-                            }
-                            ignGenerated += annualFires;
-                        }
+                    // 745 is the upper limit for valid Poisson lambdas.  If greater than
+                    // 745, divide by 10 and readjust back up below.
+                    if (doubleLambda > 745)
+                    {
+                        doubleLambda = doubleLambda / 10;
+                        boolLarge = true;
                     }
-                    else
+                    PlugIn.ModelCore.PoissonDistribution.Lambda = doubleLambda;
+                    //randVar.Lambda = doubleLambda;
+
+                    for (int i = 1; i <= Timestep; i++)
                     {
-                        doubleLambda = fire_region.EcoIgnitionNum;
-                        bool boolLarge = false;
-
-                        // 745 is the upper limit for valid Poisson lambdas.  If greater than
-                        // 745, divide by 10 and readjust back up below.
-                        if (doubleLambda > 745)
-                        {
-                            doubleLambda = doubleLambda / 10;
-                            boolLarge = true;
-                        }
-                        PlugIn.ModelCore.PoissonDistribution.Lambda = doubleLambda;
-                        //randVar.Lambda = doubleLambda;
-
-                        for (int i = 1; i <= Timestep; i++)
-                        {
-                            int annualFires = PlugIn.ModelCore.PoissonDistribution.Next();
-                            if (boolLarge)
-                                annualFires = annualFires * 10;  //readjust if necessary.
-                            ignGenerated += annualFires;
-                        }
+                        int annualFires = PlugIn.ModelCore.PoissonDistribution.Next();
+                        if (boolLarge)
+                            annualFires = annualFires * 10;  //readjust if necessary.
+                        ignGenerated += annualFires;
                     }
                     if (isDebugEnabled)
                         ModelCore.UI.WriteLine("  Ignitions generated = {0}; Shuffling {0} cells ...", ignGenerated, fire_region.FireRegionSites.Count);
