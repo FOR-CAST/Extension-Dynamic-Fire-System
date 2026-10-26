@@ -6,9 +6,9 @@
     <AssemblyName>Landis.Extension.DynamicFire-v4</AssemblyName>
     <AssemblyTitle>Landis.Extension.DynamicFire-v4</AssemblyTitle>
     <AssemblyProduct>Landis.Extension.DynamicFire-v4</AssemblyProduct>
-    <AssemblyVersion>4.1</AssemblyVersion>
-	<Version>4.1</Version>
-	<FileVersion>4.1</FileVersion>
+    <AssemblyVersion>4.1.1</AssemblyVersion>
+	<Version>4.1.1</Version>
+	<FileVersion>4.1.1</FileVersion>
 	<RootNamespace>Landis.Extension.DynamicFire</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
