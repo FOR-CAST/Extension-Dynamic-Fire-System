@@ -1,0 +1,45 @@
+# Run the test cases in tests/cases/ with a freshly built Dynamic Fire System, inside the LANDIS-II
+# image, check them against the user guide and compare their outputs with tests/cases/*/expected/.
+# See tests/README.md.
+name: Test cases
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+  pull_request:
+    paths:
+      - "src/**"
+      - "tests/**"
+      - ".github/workflows/test-cases.yml"
+
+permissions:
+  contents: read
+
+env:
+  # The image the cases run in, pinned by digest. Changing it can change expected outputs.
+  LANDIS_IMAGE: ghcr.io/landis-ii-foundation/landis-ii-v8-uclv2-release@sha256:89fb537774dcaeb8ca97f9dbbc6e3189c384332e36fcbfdb302d07799c065cd5
+
+jobs:
+  cases:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Pull the LANDIS-II image
+        run: docker pull "$LANDIS_IMAGE"
+
+      - name: Build Dynamic Fire System against the image's libraries
+        run: tests/build.sh "$LANDIS_IMAGE" build
+
+      - name: Run the test cases
+        run: tests/run-cases.sh build/Landis.Extension.DynamicFire-v4.dll "$LANDIS_IMAGE"
+
+      - if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: test-case-outputs
+          path: |
+            tests/work
+            build/build.log
+          if-no-files-found: ignore

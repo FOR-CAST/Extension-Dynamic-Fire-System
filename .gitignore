@@ -322,3 +322,6 @@ testings/Core8-DynamicFire4.1/Metadata/Dynamic Fuel System/Dynamic Fuel System.x
 testings/Core8-DynamicFire4.1/Metadata/LANDIS-II v8.0/LANDIS-II v8.0.xml
 testings/Core8-DynamicFire4.1/Landis-climate-log.txt
 testings/Core8-DynamicFire4.1/Landis-log.txt
+
+# test-case runs (tests/README.md)
+tests/work/
