@@ -57,6 +57,7 @@ namespace Landis.Extension.DynamicFire
         public int InitiationFuel { get; private set; }
         public int NumSitesChecked { get; private set; }
         public int NumberDamagedSites { get; private set; }
+        public int[] SitesInEvent { get; }
         public int CohortsKilled { get; private set; }
         public double EventSeverity { get; private set; }
         public int WindSpeed { get; set; }
@@ -94,6 +95,7 @@ namespace Landis.Extension.DynamicFire
             this.CohortsKilled = 0;
             this.EventSeverity = 0;
             this.NumberDamagedSites = 0;
+            this.SitesInEvent = new int[FireRegions.Dataset.Count];
             IFireRegion eco = SiteVars.FireRegion[initiationSite];
             this.InitiationFireRegion = eco;
             this.MaxFireParameter = ComputeSize(eco.MeanSize, eco.StandardDeviation, eco.MaxSize); //fireSizeType);
@@ -264,7 +266,7 @@ namespace Landis.Extension.DynamicFire
             int totalSiteSeverities = 0;
             int siteCohortsKilled    = 0;
             int totalISI = 0;
-            NumberDamagedSites = 1;
+            NumberDamagedSites = 0;
 
             this.InitiationFuel   = SiteVars.CFSFuelType[initiationSite];
             this.InitiationPercentConifer = SiteVars.PercentConifer[initiationSite];
@@ -395,7 +397,7 @@ namespace Landis.Extension.DynamicFire
                     totalISI += (int) SiteVars.ISI[site];
 
                     IFireRegion siteFireRegion = SiteVars.FireRegion[site];
-                    //SitesInEvent[siteFireRegion.Index]++;
+                    SitesInEvent[siteFireRegion.Index]++;
 
                     SiteVars.Disturbed[currentSite] = true;
                     
@@ -406,11 +408,15 @@ namespace Landis.Extension.DynamicFire
             }
 
             if (this.NumberDamagedSites == 0)
+            {
                 this.EventSeverity = 0;
+                this.ISI = 0;
+            }
             else
+            {
                 this.EventSeverity = ((double) totalSiteSeverities) / (double)this.NumberDamagedSites;
-
-            this.ISI = (int) ((double) totalISI / (double) this.NumberDamagedSites);
+                this.ISI = (int) ((double) totalISI / (double) this.NumberDamagedSites);
+            }
 
             if (isDebugEnabled)
                 PlugIn.ModelCore.UI.WriteLine("  Done spreading");
