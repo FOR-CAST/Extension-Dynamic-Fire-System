@@ -1,0 +1,21 @@
+LandisData  "Scenario"
+
+Duration  100
+
+Species  species.txt
+
+Ecoregions  ecoregions.txt
+EcoregionsMap  ecoregions.asc
+
+CellLength  100
+
+>> Succession Extension   Initialization File
+   "ForC Succession"      forc-succession.txt
+
+>> Disturbance Extensions   Initialization File
+   "Dynamic Fuel System"  dynamic-fuels.txt
+   "Dynamic Fire System"  dynamic-fire.txt
+
+DisturbancesRandomOrder  no
+
+RandomNumberSeed  4357
