@@ -99,6 +99,16 @@ namespace Landis.Extension.DynamicFire
             ecoregionSitesCount        = new int[FireRegions.Dataset.Count];
             SpeciesData.Initialize(parameters);
 
+            List<string> groundKill = new List<string>();
+            foreach (ISpecies species in ModelCore.Species)
+            {
+                double kill = SpeciesData.GroundFireKill[species];
+                if (!double.IsNaN(kill))
+                    groundKill.Add(species.Name + " " + kill.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            }
+            if (groundKill.Count > 0)
+                ModelCore.UI.WriteLine("   Ground-fire kill: " + string.Join(", ", groundKill));
+
             // Count the number of sites per fire_region:
             foreach (Site site in ModelCore.Landscape)
             {

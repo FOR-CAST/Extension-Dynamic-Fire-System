@@ -63,6 +63,23 @@ namespace Landis.Extension.DynamicFire
             {
                 ISpecies species = ReadSpecies(System.Convert.ToString(row["SpeciesCode"]));
                 parameters.FireTolerance[species] = System.Convert.ToInt32(row["FireTolerance"]);
+
+                //  Optional column: below severity 5 the species leaves the damage table and
+                //  all its cohorts in a burned cell die together with this probability.
+                if (speciesTable.Columns.Contains("GroundFireKill"))
+                {
+                    string kill = System.Convert.ToString(row["GroundFireKill"]).Trim();
+                    if (kill.Length > 0)
+                    {
+                        double killValue;
+                        if (!double.TryParse(kill, System.Globalization.NumberStyles.Float,
+                                             System.Globalization.CultureInfo.InvariantCulture, out killValue)
+                            || killValue < 0.0 || killValue > 1.0)
+                            throw new InputValueException(kill,
+                                "Column GroundFireKill of species " + species.Name + " must be a number between 0 and 1, or blank");
+                        parameters.GroundFireKill[species] = killValue;
+                    }
+                }
             }
 
 

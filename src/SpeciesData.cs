@@ -6,11 +6,13 @@ namespace Landis.Extension.DynamicFire
     public class SpeciesData 
     {
         public static Landis.Library.Parameters.Species.AuxParm<int> FireTolerance;
+        public static Landis.Library.Parameters.Species.AuxParm<double> GroundFireKill;
 
         //---------------------------------------------------------------------
         public static void Initialize(IInputParameters parameters)
         {
             FireTolerance          = parameters.FireTolerance;
+            GroundFireKill         = parameters.GroundFireKill;
         }
     }
 }

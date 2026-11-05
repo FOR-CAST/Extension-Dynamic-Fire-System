@@ -18,6 +18,7 @@ namespace Landis.Extension.DynamicFire
     {
         int Timestep{get;set;}
         Landis.Library.Parameters.Species.AuxParm<int> FireTolerance { get; }
+        Landis.Library.Parameters.Species.AuxParm<double> GroundFireKill { get; }
         SizeType FireSizeType{get;set;}
         bool BUI{get;set;}
         double SeverityCalibrate { get;set;}
@@ -45,6 +46,7 @@ namespace Landis.Extension.DynamicFire
         private string mapNamesTemplate;
 
         public Landis.Library.Parameters.Species.AuxParm<int> FireTolerance { get; set; }
+        public Landis.Library.Parameters.Species.AuxParm<double> GroundFireKill { get; set; }
 
 
         //---------------------------------------------------------------------
@@ -142,6 +144,9 @@ namespace Landis.Extension.DynamicFire
             for(int i=0; i<100; i++)
                 FuelTypeParameters[i] = new FuelType();
             FireTolerance = new Landis.Library.Parameters.Species.AuxParm<int>(speciesDataset);
+            GroundFireKill = new Landis.Library.Parameters.Species.AuxParm<double>(speciesDataset);
+            foreach (ISpecies species in speciesDataset)
+                GroundFireKill[species] = double.NaN;  // NaN: the species uses the damage table
         }
        
     }

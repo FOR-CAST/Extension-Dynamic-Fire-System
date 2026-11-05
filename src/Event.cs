@@ -21,6 +21,7 @@ namespace Landis.Extension.DynamicFire
         private ActiveSite initiationSite;
         private int sizeBin;
         private ActiveSite currentSite; // current site where cohorts are being damaged
+        private double siteGroundDraw;  // one uniform draw per burned cell, shared by the species with a GroundFireKill value; NaN if none was taken
         private int siteSeverity;      // used to compute maximum cohort severity at a site
 
         //---------------------------------------------------------------------
@@ -461,6 +462,22 @@ namespace Landis.Extension.DynamicFire
         private int Damage(ActiveSite site)
         {
             int previousCohortsKilled = this.CohortsKilled;
+
+            //  Species with a GroundFireKill value die together in a cell at severity 1-4, so
+            //  take the draw once here, only when the cell holds such a species.
+            this.siteGroundDraw = double.NaN;
+            if (siteSeverity >= 1 && siteSeverity <= 4)
+            {
+                foreach (ISpeciesCohorts speciesCohorts in SiteVars.Cohorts[site])
+                {
+                    if (!double.IsNaN(SpeciesData.GroundFireKill[speciesCohorts.Species]))
+                    {
+                        this.siteGroundDraw = PlugIn.ModelCore.GenerateUniform();
+                        break;
+                    }
+                }
+            }
+
             SiteVars.Cohorts[site].ReduceOrKillCohorts(this);
             return this.CohortsKilled - previousCohortsKilled;
         }
@@ -477,6 +494,12 @@ namespace Landis.Extension.DynamicFire
             if (siteSeverity == 5)
             {
                 killCohort = true;
+            }
+            else if (!double.IsNaN(SpeciesData.GroundFireKill[cohort.Species]))
+            {
+                //Species with a GroundFireKill value: all its cohorts in the cell share the cell's draw
+                //(none is taken at severity 0, where the species survives).
+                killCohort = siteSeverity >= 1 && siteSeverity <= 4 && siteGroundDraw < SpeciesData.GroundFireKill[cohort.Species];
             }
             else {
                 //Otherwise, use damage table to calculate damage.
